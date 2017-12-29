@@ -1,0 +1,40 @@
+<?php namespace {{ command_namespace|raw }};
+
+{{ use_interface }}
+
+/**
+ * {{ description }}
+ */
+class {{ name ~ 'Command' }} implements {{ command_interface }}
+{
+{% for arg in arguments %}
+	/**
+	* @var string {{ arg|capitalize }}
+	*/
+	protected ${{ arg ~ ';'}}
+
+{% endfor %}
+	/**
+	 * Create the command
+	 *
+{% for arg in arguments %}
+	 * @param string ${{ arg }}
+{% endfor %}
+	 */
+	public function __construct({{ arguments ? arguments_constructor : '' }})
+	{
+{% for arg in arguments %}
+		$this->{{ arg }} = ${{ arg }};
+{% endfor %}
+	}
+
+{% for arg in arguments %}
+	/**
+	 * @return string
+	 */
+	public function get{{ arg|capitalize }}() : string
+	{
+		return $this->{{ arg }};
+	}
+{% endfor %}
+}

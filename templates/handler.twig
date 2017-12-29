@@ -1,0 +1,42 @@
+<?php namespace {{ handler_namespace|raw }};
+
+{{ use_interface }}
+use {{ command_namespace ~ "\\" ~ name ~ 'Command' }};
+{% for vendor in vendors %}
+use {{ vendor.namespace }};
+{% endfor %}
+
+/**
+ * Handle the {{ name }} command
+ */
+class {{ name ~ 'Handler' }} implements {{ handler_interface }}
+{
+{% for vendor in vendors %}
+	/**
+	* @var \{{ vendor.namespace }}
+	*/
+	protected ${{ vendor.attr ~ ';'}}
+
+{% endfor %}
+	/**
+	 * Create the command
+	 *
+{% for vendor in vendors %}
+	 * @param \{{ vendor.namespace }} ${{ vendor.attr }}
+{% endfor %}
+	 */
+	public function __construct({{ vendors_constructor }})
+	{
+{% for vendor in vendors %}
+		$this->{{ vendor.attr }} = ${{ vendor.attr }};
+{% endfor %}
+	}
+
+	/**
+	 * Handle command
+	 */
+	public function handle({{ name ~ 'Command' }} $command)
+	{
+		return [];
+	}
+}
